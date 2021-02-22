@@ -20,9 +20,10 @@ cd dstl-annot8-components
 mvn clean install
 cd -
 
-cd dstl-annot8-corenlp-components
-mvn clean install
-cd -
+# Warning GPL licensed
+# cd dstl-annot8-corenlp-components
+# mvn clean install
+# cd -
 
 # Baleen
 

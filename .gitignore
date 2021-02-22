@@ -343,4 +343,4 @@ target
 # /annot8-corenlp-components
 # /baleen
 # /baleen3
-# /embedded-baleen
+baleen3-package/

@@ -10,7 +10,8 @@ git clone https://github.com/dstl/baleen3.git dstl-baleen3
 
 # Dstl Annot8 Components
 git clone https://github.com/dstl/annot8-components.git dstl-annot8-components
-git clone https://github.com/dstl/annot8-corenlp-components.git  dstl-annot8-components
+# Warning GPL licensed:
+# git clone https://github.com/dstl/annot8-corenlp-components.git  dstl-annot8-components
 
 # Optional - Baleen 2 related repos
 git clone https://github.com/dstl/baleen.git dstl-baleen2
