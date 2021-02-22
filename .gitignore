@@ -331,4 +331,16 @@ ASALocalRun/
 
 *.DS_Store
 
+.project
+
 target
+
+# Ignore sub projects
+# /annot8
+# /annot8-api
+# /annot8-baleen
+# /annot8-components
+# /annot8-corenlp-components
+# /baleen
+# /baleen3
+# /embedded-baleen

@@ -1,75 +1,78 @@
-# Try Out Development Containers: Java
+# Annot8 Dev Container
 
-A **development container** is a running [Docker](https://www.docker.com) container with a well-defined tool/runtime stack and its prerequisites. You can try out development containers with **[GitHub Codespaces](https://github.com/features/codespaces)** or **[Visual Studio Code Remote - Containers](https://aka.ms/vscode-remote/containers)**.
+A Visual Studio Code development container for the Annot8 ecosystem,
 
-This is a sample project that lets you try out either option in a few easy steps. We have a variety of other [vscode-remote-try-*](https://github.com/search?q=org%3Amicrosoft+vscode-remote-try-&type=Repositories) sample projects, too.
+The Annot8 code base is spread accross a number of repositories and organisations.
+This container clones those container to provide a development environment for all of Annot8.
 
-> **Note:** If you already have a Codespace or dev container, you can jump to the [Things to try](#things-to-try) section.
+This is useful for whole scale testing and releasing, but you can also 
 
-## Setting up the development container
+## Setup
 
-### GitHub Codespaces
-Follow these steps to open this sample in a Codespace:
-1. Click the Code drop-down menu and select the **Open with Codespaces** option.
-1. Select **+ New codespace** at the bottom on the pane.
+Install Visual Studio Code, install the 'Remote - Containers' extension (or the 'Remote Developement' extension pack).
 
-For more info, check out the [GitHub documentation](https://docs.github.com/en/free-pro-team@latest/github/developing-online-with-codespaces/creating-a-codespace#creating-a-codespace).
+You'll see a green `><` in the bottom left, click and select 'Clone repository into Dev Container'.
 
-### VS Code Remote - Containers
-Follow these steps to open this sample in a container using the VS Code Remote - Containers extension:
+Enter the URL (https://github.com/annot8/devcontainer) or short name `annot8/devcontainer`. VSCode will build you the devcontainer.
 
-1. If this is your first time using a development container, please ensure your system meets the pre-reqs (i.e. have Docker installed) in the [getting started steps](https://aka.ms/vscode-remote/containers/getting-started).
+Once done, open the terminal (e.g. `Ctrl+` ` Mac, but see Terminal menu):
 
-2. To use this repository, you can either open the repository in an isolated Docker volume:
+```shell
+# To clone all current repos 
+./clone.sh
 
-    - Press <kbd>F1</kbd> and select the **Remote-Containers: Try a Sample...** command.
-    - Choose the "Java" sample, wait for the container to start, and try things out!
-        > **Note:** Under the hood, this will use the **Remote-Containers: Clone Repository in Container Volume...** command to clone the source code in a Docker volume instead of the local filesystem. [Volumes](https://docs.docker.com/storage/volumes/) are the preferred mechanism for persisting container data.
+# To build all repos - this will need to download all dependencies first time around
+./build.sh
+```
 
-   Or open a locally cloned copy of the code:
 
-   - Clone this repository to your local filesystem.
-   - Press <kbd>F1</kbd> and select the **Remote-Containers: Open Folder in Container...** command.
-   - Select the cloned copy of this folder, wait for the container to start, and try things out!
+Of course, you can just use the sh scripts in your own environment withouth using devcontainers.
 
-## Things to try
+## Specific tasks
 
-Once you have this sample opened, you'll be able to work with it like you would locally.
+### Release
 
-> **Note:** This container runs as a non-root user with sudo access by default. Comment out `"remoteUser": "vscode"` in `.devcontainer/devcontainer.json` if you'd prefer to run as root.
+To release Annot8 to mvn you will need:
 
-Some things to try:
+* Permission to release under io.annot8.
+* GPG signing key (find with `gpg --list-keys` and grab the last 18 characters)
+* GPG passphrase
 
-1. **Edit:**
-   - Open `src/main/java/com/mycompany/app/App.java`.
-   - Try adding some code and check out the language features.
-   - Notice that the Java extension pack is already installed in the container since the `.devcontainer/devcontainer.json` lists `"vscjava.vscode-java-pack"` as an extension to install automatically when the container is created.
-2. **Terminal:** Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>\`</kbd> and type `uname` and other Linux commands from the terminal window.
-3. **Build, Run, and Debug:**
-   - Open `src/main/java/com/mycompany/app/App.java`.
-   - Add a breakpoint.
-   - Press <kbd>F5</kbd> to launch the app in the container.
-   - Once the breakpoint is hit, try hovering over variables, examining locals, and more.
-4. **Run a Test:**
-   - Open `src/test/java/com/mycompany/app/AppTest.java`.
-   - Put a breakpoint in a test.
-   - Click the `Debug Test` in the Code Lens above the function and watch it hit the breakpoint.
-  
-## Contributing
+When you have these in place, add to your `~.m2/settings.xml`:
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>ossrh</id>
+      <!-- Replace these with your OSSHR credentials -->
+      <username> <!-- your-jira-id --> </username>
+      <password> <!-- your-jira-pwd --> </password>
+    </server>
+  </servers>
+    <profiles>
+    <profile>
+      <id>ossrh</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <!-- May be gpg or gpg2 depending on your system -->
+        <gpg.executable>gpg</gpg.executable>
+        <gpg.keyname><!-- your GPG key id, if you have more than one --></gpg.keyname>
+        <gpg.passphrase><!-- your GPG passphase --></gpg.passphrase>
+      </properties>
+    </profile>
+  </profiles>
+</settings>
+```
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+To perform an Annot8 release, but moving to the correct directory (e.g. `cd annot8`) then:
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+```
+mvn -P release clean deploy
+```
 
-## License
+## Contributions and other projects
 
-Copyright © Microsoft Corporation All rights reserved.<br />
-Licensed under the MIT License. See LICENSE in the project root for license information.
+If you have a annot8 library, please feel free to submit a pull request to add it to `clone.sh`.

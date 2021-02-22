@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/java
 {
-	"name": "Java",
+	"name": "Annot8 and Baleen",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
@@ -10,29 +10,28 @@
 			// Options
 			"INSTALL_MAVEN": "true",
 			"INSTALL_GRADLE": "false",
-			"INSTALL_NODE": "false",
+			"INSTALL_NODE": "true",
 			"NODE_VERSION": "lts/*"
 		}
 	},
-
 	// Set *default* container specific settings.json values on container create.
-	"settings": { 
+	"settings": {
 		"terminal.integrated.shell.linux": "/bin/bash",
+		"terminal.integrated.shell.osx": "/bin/zsh",
 		"java.home": "/docker-java-home",
 		"maven.executable.path": "/usr/local/sdkman/candidates/maven/current/bin/mvn"
 	},
-	
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"vscjava.vscode-java-pack"
+		"vscjava.vscode-java-pack",
+		"ms-azuretools.vscode-docker",
+		"eamodio.gitlens",
+		"github.vscode-pull-request-github"
 	],
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "java -version",
-
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
 }
