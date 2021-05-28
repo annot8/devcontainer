@@ -35,10 +35,10 @@ Of course, you can just use the sh scripts in your own environment withouth usin
 To release Annot8 to mvn you will need:
 
 * Permission to release under io.annot8.
-* GPG signing key (find with `gpg --list-keys` and grab the last 18 characters)
+* GPG signing key (find the id with `gpg --list-keys --keyid-format=short`)
 * GPG passphrase
 
-When you have these in place, add to your `~.m2/settings.xml`:
+When you have these in place, add to your `~/.m2/settings.xml`:
 
 ```xml
 <settings>
@@ -60,7 +60,10 @@ When you have these in place, add to your `~.m2/settings.xml`:
         <!-- May be gpg or gpg2 depending on your system -->
         <gpg.executable>gpg</gpg.executable>
         <gpg.keyname><!-- your GPG key id, if you have more than one --></gpg.keyname>
-        <gpg.passphrase><!-- your GPG passphase --></gpg.passphrase>
+        <!-- If you wish to set your passhrase, you can do so here.
+        Though this does not work on Mac
+        <gpg.passphrase>your GPG passphrase</gpg.passphrase>
+        -->
       </properties>
     </profile>
   </profiles>

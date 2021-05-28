@@ -41,7 +41,7 @@ cd commitd-embedded-baleen
 mvn clean install
 cd -
 
-cd annot8-baleen
+cd annot8-baleen2
 mvn clean install
 cd -
 
