@@ -1,23 +1,21 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/java/.devcontainer/base.Dockerfile
-ARG VARIANT="14"
-FROM mcr.microsoft.com/vscode/devcontainers/java:0-${VARIANT}
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/ubuntu/.devcontainer/base.Dockerfile
 
-# [Optional] Install Maven or Gradle
-ARG INSTALL_MAVEN="false"
-ARG MAVEN_VERSION=3.6.3
-ARG INSTALL_GRADLE="false"
-ARG GRADLE_VERSION=5.4.1
-RUN if [ "${INSTALL_MAVEN}" = "true" ]; then su vscode -c "source /usr/local/sdkman/bin/sdkman-init.sh && sdk install maven \"${MAVEN_VERSION}\""; fi \
-    && if [ "${INSTALL_GRADLE}" = "true" ]; then su vscode -c "source /usr/local/sdkman/bin/sdkman-init.sh && sdk install gradle \"${GRADLE_VERSION}\""; fi
+# [Choice] Ubuntu version (use hirsuite or bionic on local arm64/Apple Silicon): hirsute, focal, bionic
+ARG VARIANT="hirsute"
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
-# [Optional] Install a version of Node.js using nvm for front end dev
-ARG INSTALL_NODE="true"
-ARG NODE_VERSION="lts/*"
-RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
-
-# Install useful packages
+# [Optional] This installs extra packages that can be useful 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends libatomic1
+    && apt-get -y install --no-install-recommends libatomic1 \
+    # For use in components that have python dependencies
+    python3-pip \
+    # To give simple cli for testing rest api
+    httpie \    
+    # To enable running the tesseract OCR component
+    tesseract-ocr
 
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+RUN sudo python3 -m pip install --upgrade pip
+# For annot8-components-opencv 
+RUN sudo pip3 install opencv-python-headless==4.5.4.60
+# For annot8-components-easyocr 
+RUN sudo pip3 install easyocr fastapi "uvicorn[standard]"

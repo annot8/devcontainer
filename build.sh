@@ -30,18 +30,3 @@ cd -
 cd dstl-baleen3
 mvn clean package
 cd -
-
-# Baleen 2
-
-cd dstl-baleen2
-mvn clean install
-cd -
-
-cd commitd-embedded-baleen
-mvn clean install
-cd -
-
-cd annot8-baleen2
-mvn clean install
-cd -
-
