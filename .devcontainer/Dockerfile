@@ -18,4 +18,4 @@ RUN sudo python3 -m pip install --upgrade pip
 # For annot8-components-opencv 
 RUN sudo pip3 install opencv-python-headless==4.5.4.60
 # For annot8-components-easyocr 
-RUN sudo pip3 install easyocr fastapi "uvicorn[standard]"
+RUN sudo pip3 install easyocr fastapi python-multipart "uvicorn[standard]"
